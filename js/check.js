@@ -14,8 +14,8 @@ function getMessage(a, b) {
   }
 
   if (Array.isArray(a)) {
-    length = 0;
-    i = 0;
+    var length = 0;
+    var i = 0;
 
     if (Array.isArray(b)) {
       while( i < a.length) {
