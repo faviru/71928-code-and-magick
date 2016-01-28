@@ -378,18 +378,52 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var _drawMessageWindow = function(canvas, message) {
+        var HEIGHT = 150;
+        var WIDTH = 300;
+
+        var i = 0;
+        var startTextX = 335;
+        var startTextY = (message.length < 2)? 150 : 120;
+
+        canvas.beginPath();
+        canvas.moveTo(200, 80);
+        canvas.lineTo(WIDTH + 210, 70);
+        canvas.lineTo(WIDTH+ 200, HEIGHT + 80);
+        canvas.lineTo(190, HEIGHT + 90);
+        canvas.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        canvas.fill();
+
+        canvas.beginPath();
+        canvas.moveTo(190, 70);
+        canvas.lineTo(WIDTH + 200, 60);
+        canvas.lineTo(WIDTH+ 190, HEIGHT + 70);
+        canvas.lineTo(180, HEIGHT + 80);
+        canvas.fillStyle = ('#FFFFFF');
+        canvas.fill();
+
+        canvas.fillStyle = '#000';
+        canvas.font = 'normal 400 16px PT Mono';
+        canvas.textAlign = 'center';
+        while (i <= message.length - 1) {
+          canvas.fillText(message[i], startTextX, startTextY);
+          i++;
+          startTextY += 20;
+        }
+      }
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          _drawMessageWindow(this.ctx, ['Поздравляю, Вы победили!']);
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          _drawMessageWindow(this.ctx, ['Вы проиграли :)', 'Попробуйте, снова.']);
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          _drawMessageWindow(this.ctx, ['Пауза.']);
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          _drawMessageWindow(this.ctx, ['Добро пожаловать!', 'Нажмите SPACE,', 'чтобы начать приключение.']);
           break;
       }
     },
