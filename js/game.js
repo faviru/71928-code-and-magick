@@ -382,10 +382,6 @@
         var HEIGHT = 150;
         var WIDTH = 300;
 
-        var i = 0;
-        var startTextX = 335;
-        var startTextY = (message.length < 2)? 150 : 120;
-
         canvas.beginPath();
         canvas.moveTo(200, 80);
         canvas.lineTo(WIDTH + 210, 70);
@@ -402,28 +398,43 @@
         canvas.fillStyle = ('#FFFFFF');
         canvas.fill();
 
+        var _wrapText = function(message, WIDTH) {
+          var startTextX = 335;
+          var messageByWords = message.split(' ');
+          var startTextY = (messageByWords.length < 4)? 150 : 120;
+          var line = '';
+          for (var n = 0; n < messageByWords.length; n++) {
+            var testLine = line + messageByWords[n] + " ";
+            var testWidth = canvas.measureText(testLine).width;
+            if (testWidth > WIDTH) {
+              canvas.fillText(line, startTextX, startTextY);
+              line = messageByWords[n] + " ";
+              startTextY += 20;
+            }
+            else {
+              line = testLine;
+            }
+          }
+          canvas.fillText(line, startTextX, startTextY);
+        }
         canvas.fillStyle = '#000';
         canvas.font = 'normal 400 16px PT Mono';
         canvas.textAlign = 'center';
-        while (i <= message.length - 1) {
-          canvas.fillText(message[i], startTextX, startTextY);
-          i++;
-          startTextY += 20;
-        }
+        _wrapText(message, WIDTH);
       }
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          _drawMessageWindow(this.ctx, ['Поздравляю, Вы победили!']);
+          _drawMessageWindow(this.ctx, 'Поздравляю, Вы победили!');
           break;
         case Verdict.FAIL:
-          _drawMessageWindow(this.ctx, ['Вы проиграли :)', 'Попробуйте, снова.']);
+          _drawMessageWindow(this.ctx, 'Вы проиграли :) Попробуйте, снова.');
           break;
         case Verdict.PAUSE:
-          _drawMessageWindow(this.ctx, ['Пауза.']);
+          _drawMessageWindow(this.ctx, 'Пауза.');
           break;
         case Verdict.INTRO:
-          _drawMessageWindow(this.ctx, ['Добро пожаловать!', 'Нажмите SPACE,', 'чтобы начать приключение.']);
+          _drawMessageWindow(this.ctx, 'Добро пожаловать! Нажмите SPACE, чтобы начать приключение.');
           break;
       }
     },
