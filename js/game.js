@@ -379,49 +379,49 @@
      */
     _drawPauseScreen: function() {
       var _drawMessageWindow = function(canvas, message) {
-        var HEIGHT = 150;
-        var WIDTH = 300;
+        var CANVAS_HEIGHT = 150;
+        var CANVAS_WIDTH = 300;
 
         canvas.beginPath();
         canvas.moveTo(200, 80);
-        canvas.lineTo(WIDTH + 210, 70);
-        canvas.lineTo(WIDTH+ 200, HEIGHT + 80);
-        canvas.lineTo(190, HEIGHT + 90);
+        canvas.lineTo(CANVAS_WIDTH + 210, 70);
+        canvas.lineTo(CANVAS_WIDTH + 200, CANVAS_HEIGHT + 80);
+        canvas.lineTo(190, CANVAS_HEIGHT + 90);
         canvas.fillStyle = 'rgba(0, 0, 0, 0.7)';
         canvas.fill();
 
         canvas.beginPath();
         canvas.moveTo(190, 70);
-        canvas.lineTo(WIDTH + 200, 60);
-        canvas.lineTo(WIDTH+ 190, HEIGHT + 70);
-        canvas.lineTo(180, HEIGHT + 80);
+        canvas.lineTo(CANVAS_WIDTH + 200, 60);
+        canvas.lineTo(CANVAS_WIDTH + 190, CANVAS_HEIGHT + 70);
+        canvas.lineTo(180, CANVAS_HEIGHT + 80);
         canvas.fillStyle = ('#FFFFFF');
         canvas.fill();
 
-        var _wrapText = function(message, WIDTH) {
+        var _wrapText = function(text, width) {
           var startTextX = 335;
-          var messageByWords = message.split(' ');
-          var startTextY = (messageByWords.length < 4)? 150 : 120;
+          var textByWords = text.split(' ');
+          var startTextY = (textByWords.length < 4) ? 150 : 120;
           var line = '';
-          for (var n = 0; n < messageByWords.length; n++) {
-            var testLine = line + messageByWords[n] + " ";
+          for (var n = 0; n < textByWords.length; n++) {
+            var testLine = line + textByWords[n] + ' ';
             var testWidth = canvas.measureText(testLine).width;
-            if (testWidth > WIDTH) {
+            if (testWidth > width) {
               canvas.fillText(line, startTextX, startTextY);
-              line = messageByWords[n] + " ";
+              line = textByWords[n] + ' ';
               startTextY += 20;
-            }
-            else {
+            } else {
               line = testLine;
             }
           }
           canvas.fillText(line, startTextX, startTextY);
-        }
+        };
+
         canvas.fillStyle = '#000';
         canvas.font = 'normal 400 16px PT Mono';
         canvas.textAlign = 'center';
-        _wrapText(message, WIDTH);
-      }
+        _wrapText(message, CANVAS_WIDTH);
+      };
 
       switch (this.state.currentStatus) {
         case Verdict.WIN:
