@@ -41,16 +41,6 @@
   }
 
   function validateReviewForm() {
-    function setHintVisibility(field, hint) {
-      if (field.hasAttribute('required') && field.value == '') {
-        hint.classList.remove('invisible');
-        return true;
-      } else {
-        hint.classList.add('invisible');
-        return false;
-      }
-    }
-
     var nameHintVisible = setHintVisibility(nameField, nameHint);
     var commentHintVisible = setHintVisibility(commentField, commentHint);
 
@@ -60,6 +50,16 @@
     } else {
       hintContainer.classList.add('invisible');
       formSubmitButton.removeAttribute('disabled');
+    }
+  }
+
+  function setHintVisibility(field, hint) {
+    if (field.hasAttribute('required') && field.value === '') {
+      hint.classList.remove('invisible');
+      return true;
+    } else {
+      hint.classList.add('invisible');
+      return false;
     }
   }
 
