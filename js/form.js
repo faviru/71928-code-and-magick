@@ -19,7 +19,12 @@
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
     nameField.value = docCookies.getItem('nameField');
-    commentField.value = docCookies.getItem('commentField');
+    var cookieCheckedMark = docCookies.getItem('checkedMark');
+    for (var k = 0; k < reviewForm['review-mark'].length; k++) {
+      if (reviewForm['review-mark'][k].value === cookieCheckedMark) {
+        reviewForm['review-mark'][k].checked = true;
+      }
+    }
     formContainer.classList.remove('invisible');
     nameField.setAttribute('required', 'true');
     validateReviewForm();
@@ -105,8 +110,13 @@
 
     var formattedDateToExpire = new Date(+today + (today - dateInterval)).toUTCString();
 
-    document.cookie = 'nameField=' + nameField.value + ';expires=' + formattedDateToExpire;
-    document.cookie = 'commentField=' + commentField.value + ';expires=' + formattedDateToExpire;
+    docCookies.setItem('nameField', nameField.value, formattedDateToExpire);
+    for (var j = 0; j < reviewForm['review-mark'].length; j++) {
+      var reviewMark = reviewForm['review-mark'][j];
+      if (reviewMark.checked) {
+        docCookies.setItem('checkedMark', reviewMark.value, formattedDateToExpire);
+      }
+    }
 
     reviewForm.submit();
   };
