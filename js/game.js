@@ -378,18 +378,63 @@
      * Отрисовка экрана паузы.
      */
     _drawPauseScreen: function() {
+      var _drawMessageWindow = function(canvas, message) {
+        var CANVAS_HEIGHT = 150;
+        var CANVAS_WIDTH = 300;
+
+        canvas.beginPath();
+        canvas.moveTo(200, 80);
+        canvas.lineTo(CANVAS_WIDTH + 210, 70);
+        canvas.lineTo(CANVAS_WIDTH + 200, CANVAS_HEIGHT + 80);
+        canvas.lineTo(190, CANVAS_HEIGHT + 90);
+        canvas.fillStyle = 'rgba(0, 0, 0, 0.7)';
+        canvas.fill();
+
+        canvas.beginPath();
+        canvas.moveTo(190, 70);
+        canvas.lineTo(CANVAS_WIDTH + 200, 60);
+        canvas.lineTo(CANVAS_WIDTH + 190, CANVAS_HEIGHT + 70);
+        canvas.lineTo(180, CANVAS_HEIGHT + 80);
+        canvas.fillStyle = ('#FFFFFF');
+        canvas.fill();
+
+        var _wrapText = function(text, width) {
+          var startTextX = 335;
+          var textByWords = text.split(' ');
+          var startTextY = (textByWords.length < 4) ? 150 : 120;
+          var line = '';
+          for (var n = 0; n < textByWords.length; n++) {
+            var testLine = line + textByWords[n] + ' ';
+            var testWidth = canvas.measureText(testLine).width;
+            if (testWidth > width) {
+              canvas.fillText(line, startTextX, startTextY);
+              line = textByWords[n] + ' ';
+              startTextY += 20;
+            } else {
+              line = testLine;
+            }
+          }
+          canvas.fillText(line, startTextX, startTextY);
+        };
+
+        canvas.fillStyle = '#000';
+        canvas.font = 'normal 400 16px PT Mono';
+        canvas.textAlign = 'center';
+        _wrapText(message, CANVAS_WIDTH);
+      };
+
       switch (this.state.currentStatus) {
         case Verdict.WIN:
-          console.log('you have won!');
+          _drawMessageWindow(this.ctx, 'Поздравляю, Вы победили!');
           break;
         case Verdict.FAIL:
-          console.log('you have failed!');
+          _drawMessageWindow(this.ctx, 'Вы проиграли :) Попробуйте, снова.');
           break;
         case Verdict.PAUSE:
-          console.log('game is on pause!');
+          _drawMessageWindow(this.ctx, 'Пауза.');
           break;
         case Verdict.INTRO:
-          console.log('welcome to the game! Press Space to start');
+          _drawMessageWindow(this.ctx, 'Добро пожаловать! Нажмите SPACE, чтобы начать приключение.');
           break;
       }
     },
