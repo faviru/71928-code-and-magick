@@ -1,6 +1,7 @@
 'use strict';
 
 (function() {
+  var COMMENT_REQUIRED_MARK_THRESHOLD = 3;
   var formContainer = document.querySelector('.overlay-container');
   var formOpenButton = document.querySelector('.reviews-controls-new');
   var formCloseButton = document.querySelector('.review-form-close');
@@ -11,12 +12,6 @@
   var hintContainer = document.querySelector('.review-fields');
   var nameHint = document.querySelector('.review-fields-name');
   var commentHint = document.querySelector('.review-fields-text');
-  var reviewMarkContainer = document.querySelector('.review-form-group-mark').elements;
-  var reviewMark1 = reviewMarkContainer.namedItem('review-mark-1');
-  var reviewMark2 = reviewMarkContainer.namedItem('review-mark-2');
-  var reviewMark3 = reviewMarkContainer.namedItem('review-mark-3');
-  var reviewMark4 = reviewMarkContainer.namedItem('review-mark-4');
-  var reviewMark5 = reviewMarkContainer.namedItem('review-mark-5');
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
@@ -31,12 +26,11 @@
   };
 
   function setCommentRequired() {
-    commentField.setAttribute('required', 'true');
-    validateReviewForm();
-  }
-
-  function removeCommentRequired() {
-    commentField.removeAttribute('required');
+    if (this.value < COMMENT_REQUIRED_MARK_THRESHOLD) {
+      commentField.setAttribute('required', 'true');
+    } else {
+      commentField.removeAttribute('required');
+    }
     validateReviewForm();
   }
 
@@ -46,11 +40,23 @@
 
     if (nameHintVisible || commentHintVisible) {
       hintContainer.classList.remove('invisible');
-      formSubmitButton.setAttribute('disabled', 'true');
     } else {
       hintContainer.classList.add('invisible');
-      formSubmitButton.removeAttribute('disabled');
     }
+
+    formSubmitButton.disabled = !formIsValid();
+  }
+
+  function formIsValid() {
+    var isValid = true;
+
+    for (var i = 0; i < reviewForm.elements.length; i++) {
+      isValid = reviewForm.elements[i].validity.valid;
+      if (!isValid) {
+        break;
+      }
+    }
+    return isValid;
   }
 
   function setHintVisibility(field, hint) {
@@ -63,11 +69,10 @@
     }
   }
 
-  reviewMark1.addEventListener('click', setCommentRequired);
-  reviewMark2.addEventListener('click', setCommentRequired);
-  reviewMark3.addEventListener('click', removeCommentRequired);
-  reviewMark4.addEventListener('click', removeCommentRequired);
-  reviewMark5.addEventListener('click', removeCommentRequired);
+  for (var i = 0; i < reviewForm['review-mark'].length; i++) {
+    reviewForm['review-mark'][i].addEventListener('click', setCommentRequired);
+  }
+
   nameField.addEventListener('input', validateReviewForm);
   commentField.addEventListener('input', validateReviewForm);
 
