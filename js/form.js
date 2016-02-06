@@ -1,7 +1,10 @@
+/*global docCookies*/
 'use strict';
 
 (function() {
   var COMMENT_REQUIRED_MARK_THRESHOLD = 3;
+  var B_DAY_DAY = 8;
+  var B_DAY_MONTH = 6;
   var formContainer = document.querySelector('.overlay-container');
   var formOpenButton = document.querySelector('.reviews-controls-new');
   var formCloseButton = document.querySelector('.review-form-close');
@@ -15,6 +18,8 @@
 
   formOpenButton.onclick = function(evt) {
     evt.preventDefault();
+    nameField.value = docCookies.getItem('nameField');
+    commentField.value = docCookies.getItem('commentField');
     formContainer.classList.remove('invisible');
     nameField.setAttribute('required', 'true');
     validateReviewForm();
@@ -76,4 +81,33 @@
   nameField.addEventListener('input', validateReviewForm);
   commentField.addEventListener('input', validateReviewForm);
 
+  reviewForm.onsubmit = function(evt) {
+    evt.preventDefault();
+
+    var today = new Date();
+    var dateInterval = new Date();
+    var todayMonth = today.getMonth();
+    var todayYear = today.getFullYear();
+
+    if (todayMonth === B_DAY_MONTH) {
+      if (today.getDate() > B_DAY_DAY) {
+        dateInterval.setFullYear(todayYear, B_DAY_MONTH, B_DAY_DAY);
+      } else {
+        dateInterval.setFullYear(todayYear - 1, B_DAY_MONTH, B_DAY_DAY);
+      }
+    } else {
+      if (todayMonth > B_DAY_MONTH) {
+        dateInterval.setFullYear(todayYear, B_DAY_MONTH, B_DAY_DAY);
+      } else {
+        dateInterval.setFullYear(todayYear - 1, B_DAY_MONTH, B_DAY_DAY);
+      }
+    }
+
+    var formattedDateToExpire = new Date(+today + (today - dateInterval)).toUTCString();
+
+    document.cookie = 'nameField=' + nameField.value + ';expires=' + formattedDateToExpire;
+    document.cookie = 'commentField=' + commentField.value + ';expires=' + formattedDateToExpire;
+
+    reviewForm.submit();
+  };
 })();
