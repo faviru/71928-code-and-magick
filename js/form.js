@@ -21,7 +21,9 @@
     nameField.value = docCookies.getItem('nameField');
     var cookieCheckedMark = docCookies.getItem('checkedMark');
     if (cookieCheckedMark) {
-      document.querySelector('#review-mark-' + cookieCheckedMark).checked = true;
+      var cookieSavesMark = document.querySelector('#review-mark-' + cookieCheckedMark);
+      cookieSavesMark.checked = true;
+      setCommentRequired.call(cookieSavesMark);
     }
     formContainer.classList.remove('invisible');
     nameField.setAttribute('required', 'true');
