@@ -20,7 +20,9 @@
     evt.preventDefault();
     nameField.value = docCookies.getItem('nameField');
     var cookieCheckedMark = docCookies.getItem('checkedMark');
-    document.querySelector('#review-mark-' + cookieCheckedMark).checked = true;
+    if (cookieCheckedMark) {
+      document.querySelector('#review-mark-' + cookieCheckedMark).checked = true;
+    }
     formContainer.classList.remove('invisible');
     nameField.setAttribute('required', 'true');
     validateReviewForm();
