@@ -2,6 +2,9 @@
 'use strict';
 
 (function() {
+  var IMAGE_TIMEOUT = 10000;
+  var imageLoadTimeout;
+  var template = document.querySelector('#review-template');
   var container = document.querySelector('.reviews-list');
   var reviewsFilter = document.querySelector('.reviews-filter');
 
@@ -13,11 +16,8 @@
   });
 
   function getElementFromTemplate(data) {
-    var IMAGE_TIMEOUT = 10000;
-    var template = document.querySelector('#review-template');
     var element;
-    var authorAvatar = new Image();
-    var imageLoadTimeout;
+    var authorAvatar = new Image(124, 124);
 
     if ('content' in template) {
       element = template.content.children[0].cloneNode(true);
@@ -28,19 +28,25 @@
     element.querySelector('.review-text').textContent = data.description;
     var ratingValue = data.rating;
     var star = element.querySelector('.review-rating');
-    star.style.display = 'inline-block'; //Похоже какая-то недоработка в css
-
-    for (var i = 1; i < ratingValue; i++) {
-      element.insertBefore(star, element.querySelector('.review-text'));
-      star = star.cloneNode(true);
+    switch (ratingValue) {
+      case 2:
+        star.classList.add('review-rating-two');
+        break;
+      case 3:
+        star.classList.add('review-rating-three');
+        break;
+      case 4:
+        star.classList.add('review-rating-four');
+        break;
+      case 5:
+        star.classList.add('review-rating-five');
+        break;
     }
 
     authorAvatar.onload = function() {
       clearTimeout(imageLoadTimeout);
       element.replaceChild(authorAvatar, element.querySelector('.review-author'));
       authorAvatar.classList.add('review-author');
-      authorAvatar.style.height = '124';
-      authorAvatar.style.width = '124';
     };
 
     authorAvatar.onerror = function() {
