@@ -73,6 +73,7 @@
         });
         break;
     }
+    activeFilter = id;
     renderReviews(filteredReviews);
   }
 
