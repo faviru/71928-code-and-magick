@@ -33,8 +33,10 @@
 
   reviewsMore.addEventListener('click', function() {
     if (currentPage < Math.ceil(filteredReviews.length / PAGE_SIZE)) {
-      ++currentPage;
       renderReviews(filteredReviews);
+      if (currentPage === Math.ceil(filteredReviews.length / PAGE_SIZE)) {
+        reviewsMore.classList.add('invisible');
+      }
     }
   });
 
@@ -55,6 +57,7 @@
     });
 
     container.appendChild(fragment);
+    currentPage++;
   }
 
   function setActiveFilter(id, skipCheck) {
@@ -99,7 +102,6 @@
     currentPage = 0;
     activeFilter = id;
     renderReviews(filteredReviews, true);
-
     reviewsMore.classList.remove('invisible');
   }
 
