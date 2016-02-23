@@ -42,10 +42,7 @@
 
   getReviews();
 
-  function renderReviews(reviews, replace) {
-    if (replace) {
-      container.innerHTML = '';
-    }
+  function renderReviews(reviews) {
     var fragment = document.createDocumentFragment();
     var from = currentPage * PAGE_SIZE;
     var to = from + PAGE_SIZE;
@@ -108,7 +105,7 @@
     [].forEach.call(renderedElements, function(el) {
       container.removeChild(el);
     });
-    renderReviews(filteredReviews, true);
+    renderReviews(filteredReviews);
     reviewsMore.classList.remove('invisible');
   }
 
