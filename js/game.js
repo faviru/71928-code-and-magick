@@ -729,4 +729,21 @@
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
   game.setGameStatus(window.Game.Verdict.INTRO);
+
+  var clouds = document.querySelector('.header-clouds');
+  var gameBlock = document.querySelector('.demo');
+  var scrollTimeout;
+
+  window.addEventListener('scroll', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(function() {
+      if (gameBlock.getBoundingClientRect().bottom < 0) {
+        game.setGameStatus(window.Game.Verdict.PAUSE);
+      }
+    }, 100);
+    if (clouds.getBoundingClientRect().bottom > 0) {
+      clouds.style.backgroundPosition = -window.pageYOffset / 2 + 'px 0px';
+    }
+  });
+
 })();
