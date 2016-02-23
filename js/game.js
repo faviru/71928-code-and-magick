@@ -731,20 +731,18 @@
   game.setGameStatus(window.Game.Verdict.INTRO);
 
   var clouds = document.querySelector('.header-clouds');
+  var gameBlock = document.querySelector('.demo');
   var scrollTimeout;
 
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
-      var gameBlockBottom = document.querySelector('.demo').getBoundingClientRect().bottom;
-      if (gameBlockBottom < 0) {
+      if (gameBlock.getBoundingClientRect().bottom < 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
       }
     }, 100);
-    var cloudsBottom = clouds.getBoundingClientRect().bottom;
-    if (cloudsBottom > 0) {
-      var cloudTranslation = -window.pageYOffset / 2;
-      clouds.style.backgroundPosition = cloudTranslation + 'px 0px';
+    if (clouds.getBoundingClientRect().bottom > 0) {
+      clouds.style.backgroundPosition = -window.pageYOffset / 2 + 'px 0px';
     }
   });
 
