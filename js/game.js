@@ -731,22 +731,21 @@
   game.setGameStatus(window.Game.Verdict.INTRO);
 
   var clouds = document.querySelector('.header-clouds');
-  var CLOUD_TRANSLATION = 0;
   var scrollTimeout;
 
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
-      var cloudsBottom = clouds.getBoundingClientRect().bottom;
       var gameBlockBottom = document.querySelector('.demo').getBoundingClientRect().bottom;
-      if (cloudsBottom > 0) {
-        CLOUD_TRANSLATION += -10;
-        clouds.style.backgroundPosition = CLOUD_TRANSLATION + 'px ' + '0px';
-      }
       if (gameBlockBottom < 0) {
         game.setGameStatus(window.Game.Verdict.PAUSE);
       }
     }, 100);
+    var cloudsBottom = clouds.getBoundingClientRect().bottom;
+    if (cloudsBottom > 0) {
+      var cloudTranslation = -window.pageYOffset / 2;
+      clouds.style.backgroundPosition = cloudTranslation + 'px 0px';
+    }
   });
 
 })();
