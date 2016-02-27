@@ -746,13 +746,4 @@
     }
   });
 
-  var galleryImage = document.querySelectorAll('.photogallery-image');
-
-  [].forEach.call(galleryImage, function(el) {
-    el.addEventListener('click', function(evt) {
-      evt.preventDefault();
-      window.Gallery.show();
-    });
-  });
-
 })();
