@@ -24,7 +24,7 @@
   Gallery.prototype.setCurrentPicture = function(number) {
     this._currentPicture = this._pictures[number];
 
-    var image = new Image(300, 300);
+    var image = new Image();
     image.src = this._currentPicture.photoSrc;
     if (this.galleryPreview.firstChild) {
       this.galleryPreview.replaceChild(image, this.galleryPreview.firstChild);

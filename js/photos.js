@@ -3,7 +3,7 @@
 
 (function() {
   var photoGallery = document.querySelectorAll('.photogallery-image');
-  var gallery = new window.Gallery();
+  var gallery = new Gallery();
 
   var photoGalleryMapped = [].map.call(photoGallery, function(item, i) {
     return new Photo(item, i);
