@@ -4,7 +4,10 @@
 
   function Review(data) {
     this._data = data;
+
+    this._onQuizClick = this._onQuizClick.bind(this);
   }
+
   Review.prototype.render = function() {
     var template = document.querySelector('#review-template');
     var authorAvatar = new Image(124, 124);
@@ -51,7 +54,23 @@
 
     authorAvatar.src = this._data.author.picture;
 
+    this.element.querySelector('.review-quiz').addEventListener('click', this._onQuizClick);
+
     return this.element;
   };
+
+  Review.prototype._onQuizClick = function(evt) {
+    if (evt.target.classList.contains('review-quiz-answer-yes')) {
+      this._data.rating_usefulness += 1;
+      evt.target.classList.add('review-quiz-answer-active');
+      this.element.querySelector('.review-quiz-answer-no').classList.remove('review-quiz-answer-active');
+    }
+    if (evt.target.classList.contains('review-quiz-answer-no')) {
+      this._data.rating_usefulness -= 1;
+      evt.target.classList.add('review-quiz-answer-active');
+      this.element.querySelector('.review-quiz-answer-yes').classList.remove('review-quiz-answer-active');
+    }
+  };
+
   window.Review = Review;
 })();
