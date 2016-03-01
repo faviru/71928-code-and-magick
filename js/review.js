@@ -1,13 +1,21 @@
 'use strict';
 
 (function() {
-
+  /**
+   * Конструктор для отзыва.
+   * @param {Element} data
+   * @constructor
+     */
   function Review(data) {
     this._data = data;
 
     this._onQuizClick = this._onQuizClick.bind(this);
   }
 
+  /**
+   * Отрисовка отзыва в соответствии шаблону.
+   * @returns {Node|*}
+     */
   Review.prototype.render = function() {
     var template = document.querySelector('#review-template');
     var authorAvatar = new Image(124, 124);
@@ -58,7 +66,11 @@
 
     return this.element;
   };
-
+  /**
+   * Голосование полезности отзыва.
+   * @param evt
+   * @private
+     */
   Review.prototype._onQuizClick = function(evt) {
     if (evt.target.classList.contains('review-quiz-answer-yes')) {
       this._data.rating_usefulness += 1;

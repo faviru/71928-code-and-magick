@@ -1,7 +1,10 @@
 'use strict';
 
 (function() {
-
+  /**
+   * Конструктор объекта Gallery.
+   * @constructor
+     */
   var Gallery = function() {
     this.element = document.querySelector('.overlay-gallery');
     this.galleryClose = document.querySelector('.overlay-gallery-close');
@@ -17,10 +20,18 @@
     this._onClickRight = this._onClickRight.bind(this);
   };
 
+  /**
+   * Сохраняет коллекцию скриншотов.
+   * @param {Array.<Object>} pictures
+     */
   Gallery.prototype.setPictures = function(pictures) {
     this._pictures = pictures;
   };
 
+  /**
+   * Показывает скриншот в соответствии с переданым номером.
+   * @param {number} number
+     */
   Gallery.prototype.setCurrentPicture = function(number) {
     this._currentPicture = this._pictures[number];
 
@@ -36,6 +47,9 @@
     this.galleryTotal.innerHTML = this._pictures.length;
   };
 
+  /**
+   * Открывает галерею и устанавливает события.
+   */
   Gallery.prototype.show = function() {
     this.element.classList.remove('invisible');
     this.galleryClose.addEventListener('click', this._onCloseClick);
@@ -44,6 +58,9 @@
     this.galleryControlRight.addEventListener('click', this._onClickRight);
   };
 
+  /**
+   * Закрывает галерею и снимает события.
+   */
   Gallery.prototype.hide = function() {
     this.element.classList.add('invisible');
     this.galleryClose.removeEventListener('click', this._onCloseClick);
@@ -52,10 +69,19 @@
     this.galleryControlRight.removeEventListener('click', this._onClickRight);
   };
 
+  /**
+   * Обработчик события закрытть.
+   * @private
+     */
   Gallery.prototype._onCloseClick = function() {
     this.hide();
   };
 
+  /**
+   * Обработчик нажатия на клавиши.
+   * @param evt
+   * @private
+     */
   Gallery.prototype._onDocumentKeyDown = function(evt) {
     //escape
     if (evt.keyCode === 27) {
@@ -71,12 +97,20 @@
     }
   };
 
+  /**
+   * Обработчик для перехода на предыдущий скриншот.
+   * @private
+     */
   Gallery.prototype._onClickLeft = function() {
     if (this._currentPicture.index > 0) {
       this.setCurrentPicture(this._currentPicture.index - 1);
     }
   };
 
+  /**
+   * Обработчик для перехода на следующий скриншот.
+   * @private
+   */
   Gallery.prototype._onClickRight = function() {
     if (this._currentPicture.index < this._pictures.length - 1) {
       this.setCurrentPicture(this._currentPicture.index + 1);
