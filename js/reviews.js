@@ -2,21 +2,52 @@
 
 (function() {
   var Review = require('review');
-
+  /**
+   * Количество отзывов на страницу.
+   * @type {number}
+   * @const
+     */
   var PAGE_SIZE = 3;
+  /**
+   * Критерий отзывов, считащихся недавними, равный 14 дням от сегодняшней даты.
+   * @type {number}
+   * @const
+     */
   var FILTER_RECENT_THRESHOLD = new Date() - (14 * 24 * 60 * 60 * 1000);
+
   var container = document.querySelector('.reviews-list');
-  var reviewsFilter = document.querySelector('.reviews-filter');
+  var filters = document.querySelector('.reviews-filter');
   var reviewsList = document.querySelector('.reviews');
   var reviewsMore = document.querySelector('.reviews-controls-more');
+
+  /**
+   * Выранный в настоящий момент фильтр.
+   * @type {string}
+     */
   var activeFilter = 'reviews-all';
+  /**
+   * Отфильтрованные отзывы.
+   * @type {Array}
+     */
   var filteredReviews = [];
+  /**
+   * Массив в который сохраняются отзывы из .json-файла.
+   * @type {?Element}
+     */
   var loadedReviews = null;
+  /**
+   * Номер текущей загружаемой страницы отзывов.
+   * @type {number}
+     */
   var currentPage = 0;
 
-  reviewsFilter.classList.add('invisible');
+  filters.classList.add('invisible');
 
-  var filters = document.querySelector('.reviews-filter');
+  /**
+   * Установка слушателя события клик на фильтры отзывов,
+   * определяющего какой из фильтров выбран.
+   * @param {event} evt
+   */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
     if (clickedElement.tagName === 'input') {
@@ -24,13 +55,10 @@
     }
   });
 
-  for (var i = 0; i < filters.length; i++) {
-    filters[i].onclick = function(evt) {
-      var clickedElementID = evt.target.id;
-      setActiveFilter(clickedElementID);
-    };
-  }
-
+  /**
+   * Установка слушателя события клик на кнопку "Еще отзывы",
+   * которая отрисовывает еще одну страницу отзывов.
+   */
   reviewsMore.addEventListener('click', function() {
     if (currentPage < Math.ceil(filteredReviews.length / PAGE_SIZE)) {
       renderReviews(filteredReviews);
@@ -42,6 +70,10 @@
 
   getReviews();
 
+  /**
+   * Отрисовка страницы отзывов.
+   * @param {Array.<Element>} reviews
+     */
   function renderReviews(reviews) {
     var fragment = document.createDocumentFragment();
     var from = currentPage * PAGE_SIZE;
@@ -49,16 +81,25 @@
     var pageReviews = reviews.slice(from, to);
 
     pageReviews.forEach(function(review) {
+      /**
+       * @type {Review}
+       */
       var reviewElement = new Review(review);
       reviewElement.render();
       fragment.appendChild(reviewElement.element);
-      reviewsFilter.classList.remove('invisible');
+      filters.classList.remove('invisible');
     });
 
     container.appendChild(fragment);
     currentPage++;
   }
 
+  /**
+   * Установка выбранного фильтра и определение критерий для каждого из фильтров.
+   * Удаление ранее отрисованных элементов.
+   * @param {string} id
+   * @param {boolean} skipCheck
+     */
   function setActiveFilter(id, skipCheck) {
     if (!skipCheck && activeFilter === id) {
       return;
@@ -109,6 +150,9 @@
     reviewsMore.classList.remove('invisible');
   }
 
+  /**
+   * Загрузка .json-файла и обработка ошибок при закгрузке.
+   */
   function getReviews() {
     reviewsList.classList.add('reviews-list-loading');
     var xhr = new XMLHttpRequest();

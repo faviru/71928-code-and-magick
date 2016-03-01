@@ -3,8 +3,15 @@
 (function() {
   var Photo = require('photo');
   var Gallery = require('gallery');
-
+  /**
+   * Выбирает скриншоты игры.
+   * @type {NodeList}
+     */
   var photoGallery = document.querySelectorAll('.photogallery-image');
+
+  /**
+   * @type {Gallery}
+   */
   var gallery = new Gallery();
 
   var photoGalleryMapped = [].map.call(photoGallery, function(item, i) {

@@ -733,6 +733,9 @@
   var gameBlock = document.querySelector('.demo');
   var scrollTimeout;
 
+  /**
+   * Параллакс облаков.
+   */
   window.addEventListener('scroll', function() {
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {

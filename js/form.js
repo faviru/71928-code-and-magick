@@ -2,9 +2,27 @@
 'use strict';
 
 (function() {
+  /**
+   * Граница меджу полодительной и отрицательной оценками.
+   * @type {number}
+   * @const
+     */
   var COMMENT_REQUIRED_MARK_THRESHOLD = 3;
+
+  /**
+   * День рождения автора.
+   * @type {number}
+   * @const
+     */
   var B_DAY_DAY = 8;
+
+  /**
+   * Месяц рождения автора.
+   * @type {number}
+   * @const
+   */
   var B_DAY_MONTH = 6;
+
   var formContainer = document.querySelector('.overlay-container');
   var formOpenButton = document.querySelector('.reviews-controls-new');
   var formCloseButton = document.querySelector('.review-form-close');
@@ -35,6 +53,9 @@
     formContainer.classList.add('invisible');
   };
 
+  /**
+   * Устанавливает обязательность заполнения поля Отзыв.
+   */
   function setCommentRequired() {
     if (this.value < COMMENT_REQUIRED_MARK_THRESHOLD) {
       commentField.setAttribute('required', 'true');
@@ -44,6 +65,9 @@
     validateReviewForm();
   }
 
+  /**
+   * Показывает/скрывает поле подсказки в зависимости от валидности формы.
+   */
   function validateReviewForm() {
     var nameHintVisible = setHintVisibility(nameField, nameHint);
     var commentHintVisible = setHintVisibility(commentField, commentHint);
@@ -57,6 +81,10 @@
     formSubmitButton.disabled = !formIsValid();
   }
 
+  /**
+   * Определяет валидность заполнения формы.
+   * @returns {boolean}
+     */
   function formIsValid() {
     var isValid = true;
 
@@ -69,6 +97,12 @@
     return isValid;
   }
 
+  /**
+   * Устанавливает видимость подсказок для обязательности заполнения поля.
+   * @param {Element} field
+   * @param {Element} hint
+   * @returns {boolean}
+     */
   function setHintVisibility(field, hint) {
     if (field.hasAttribute('required') && field.value === '') {
       hint.classList.remove('invisible');
