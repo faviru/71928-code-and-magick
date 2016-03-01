@@ -1,7 +1,9 @@
 'use strict';
-/*global Photo: true, Gallery: true*/
 
 (function() {
+  var Photo = require('photo');
+  var Gallery = require('gallery');
+
   var photoGallery = document.querySelectorAll('.photogallery-image');
   var gallery = new Gallery();
 

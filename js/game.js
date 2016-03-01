@@ -723,12 +723,11 @@
     }
   };
 
-  window.Game = Game;
-  window.Game.Verdict = Verdict;
+  Game.Verdict = Verdict;
 
   var game = new Game(document.querySelector('.demo'));
   game.initializeLevelAndStart();
-  game.setGameStatus(window.Game.Verdict.INTRO);
+  game.setGameStatus(Game.Verdict.INTRO);
 
   var clouds = document.querySelector('.header-clouds');
   var gameBlock = document.querySelector('.demo');
@@ -738,7 +737,7 @@
     clearTimeout(scrollTimeout);
     scrollTimeout = setTimeout(function() {
       if (gameBlock.getBoundingClientRect().bottom < 0) {
-        game.setGameStatus(window.Game.Verdict.PAUSE);
+        game.setGameStatus(Game.Verdict.PAUSE);
       }
     }, 100);
     if (clouds.getBoundingClientRect().bottom > 0) {
@@ -746,4 +745,5 @@
     }
   });
 
+  module.exports = Game;
 })();

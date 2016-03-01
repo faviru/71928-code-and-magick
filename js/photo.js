@@ -7,5 +7,5 @@
     this.index = index;
   }
 
-  window.Photo = Photo;
+  module.exports = Photo;
 })();

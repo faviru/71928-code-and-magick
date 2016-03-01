@@ -1,8 +1,8 @@
-/* global Review: true*/
-
 'use strict';
 
 (function() {
+  var Review = require('review');
+
   var PAGE_SIZE = 3;
   var FILTER_RECENT_THRESHOLD = new Date() - (14 * 24 * 60 * 60 * 1000);
   var container = document.querySelector('.reviews-list');

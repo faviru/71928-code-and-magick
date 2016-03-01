@@ -72,5 +72,5 @@
     }
   };
 
-  window.Review = Review;
+  module.exports = Review;
 })();
