@@ -83,5 +83,5 @@
     }
   };
 
-  window.Gallery = Gallery;
+  module.exports = Gallery;
 })();
