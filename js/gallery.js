@@ -79,7 +79,7 @@
 
   /**
    * Обработчик нажатия на клавиши.
-   * @param evt
+   * @param {event} evt
    * @private
      */
   Gallery.prototype._onDocumentKeyDown = function(evt) {

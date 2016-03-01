@@ -3,7 +3,7 @@
 (function() {
   /**
    * Конструктор для отзыва.
-   * @param {Element} data
+   * @param {Object} data
    * @constructor
      */
   function Review(data) {
@@ -68,7 +68,7 @@
   };
   /**
    * Голосование полезности отзыва.
-   * @param evt
+   * @param {event} evt
    * @private
      */
   Review.prototype._onQuizClick = function(evt) {

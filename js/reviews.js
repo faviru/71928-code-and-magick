@@ -46,6 +46,7 @@
   /**
    * Установка слушателя события клик на фильтры отзывов,
    * определяющего какой из фильтров выбран.
+   * @param {event} evt
    */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
