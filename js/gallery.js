@@ -30,10 +30,20 @@
 
   /**
    * Показывает скриншот в соответствии с переданым номером.
-   * @param {number} number
+   * @param {number|string} identifier
      */
-  Gallery.prototype.setCurrentPicture = function(number) {
-    this._currentPicture = this._pictures[number];
+  Gallery.prototype.setCurrentPicture = function(identifier) {
+    if (typeof identifier === 'string') {
+      var tempId = null;
+      [].forEach.call(this._pictures, function(el) {
+        if (el.photoSrc === identifier) {
+          tempId = el.index;
+        }
+      });
+      identifier = tempId;
+    }
+
+    this._currentPicture = this._pictures[identifier];
 
     var image = new Image();
     image.src = this._currentPicture.photoSrc;
@@ -43,7 +53,7 @@
       this.galleryPreview.appendChild(image);
     }
 
-    this.galleryCurrentPic.innerHTML = number + 1;
+    this.galleryCurrentPic.innerHTML = identifier + 1;
     this.galleryTotal.innerHTML = this._pictures.length;
   };
 
@@ -75,6 +85,7 @@
      */
   Gallery.prototype._onCloseClick = function() {
     this.hide();
+    location.hash = '';
   };
 
   /**
@@ -85,7 +96,7 @@
   Gallery.prototype._onDocumentKeyDown = function(evt) {
     //escape
     if (evt.keyCode === 27) {
-      this.hide();
+      this._onCloseClick();
     }
     //left-arrow
     if (evt.keyCode === 37) {
@@ -98,12 +109,21 @@
   };
 
   /**
+   * Записывает хэш скриншота по переданному индексу.
+   * @param {number} index
+   * @private
+     */
+  Gallery.prototype._setHash = function(index) {
+    location.hash = '#photo/' + this._pictures[index].photoSrc;
+  };
+
+  /**
    * Обработчик для перехода на предыдущий скриншот.
    * @private
      */
   Gallery.prototype._onClickLeft = function() {
     if (this._currentPicture.index > 0) {
-      this.setCurrentPicture(this._currentPicture.index - 1);
+      this._setHash(this._currentPicture.index - 1);
     }
   };
 
@@ -113,7 +133,7 @@
    */
   Gallery.prototype._onClickRight = function() {
     if (this._currentPicture.index < this._pictures.length - 1) {
-      this.setCurrentPicture(this._currentPicture.index + 1);
+      this._setHash(this._currentPicture.index + 1);
     }
   };
 
