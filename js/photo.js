@@ -18,7 +18,7 @@
     this.element = photo;
     this.photoSrc = photo.firstChild.getAttribute('src');
     this.index = index;
-  }
+  };
 
   module.exports = Photo;
 })();

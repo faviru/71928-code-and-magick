@@ -1,7 +1,7 @@
 'use strict';
 
 (function() {
-  var Video = require('video')
+  var Video = require('video');
   /**
    * Конструктор объекта Gallery.
    * @constructor
