@@ -15,7 +15,6 @@
     this.video = document.createElement('video');
     this.video.src = this.replacement;
     this.video.loop = true;
-    this.video.autoplay = true;
     this.video.addEventListener('click', this._clickHandler.bind(this));
   }
 

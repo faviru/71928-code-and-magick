@@ -60,6 +60,10 @@
       this.galleryPreview.appendChild(element);
     }
 
+    if (this._pictures[identifier] instanceof Video) {
+      this._pictures[identifier].video.play();
+    }
+
     this.galleryCurrentPic.innerHTML = identifier + 1;
     this.galleryTotal.innerHTML = this._pictures.length;
   };
@@ -79,6 +83,11 @@
    * Закрывает галерею и снимает события.
    */
   Gallery.prototype.hide = function() {
+    this._pictures.forEach(function(el) {
+      if (el instanceof Video) {
+        el.video.pause();
+      }
+    });
     this.element.classList.add('invisible');
     this.galleryClose.removeEventListener('click', this._onCloseClick);
     document.removeEventListener('keydown', this._onDocumentKeyDown);
