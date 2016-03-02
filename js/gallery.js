@@ -96,8 +96,7 @@
   Gallery.prototype._onDocumentKeyDown = function(evt) {
     //escape
     if (evt.keyCode === 27) {
-      this.hide();
-      location.hash = '';
+      this._onCloseClick();
     }
     //left-arrow
     if (evt.keyCode === 37) {
@@ -110,12 +109,21 @@
   };
 
   /**
+   * Записывает хэш скриншота по переданному индексу.
+   * @param {number} index
+   * @private
+     */
+  Gallery.prototype._setHash = function(index) {
+    location.hash = '#photo/' + this._pictures[index].photoSrc;
+  };
+
+  /**
    * Обработчик для перехода на предыдущий скриншот.
    * @private
      */
   Gallery.prototype._onClickLeft = function() {
     if (this._currentPicture.index > 0) {
-      location.hash = '#photo/' + this._pictures[this._currentPicture.index - 1].photoSrc;
+      this._setHash(this._currentPicture.index - 1);
     }
   };
 
@@ -125,7 +133,7 @@
    */
   Gallery.prototype._onClickRight = function() {
     if (this._currentPicture.index < this._pictures.length - 1) {
-      location.hash = '#photo/' + this._pictures[this._currentPicture.index + 1].photoSrc;
+      this._setHash(this._currentPicture.index + 1);
     }
   };
 
