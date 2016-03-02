@@ -21,10 +21,10 @@
   var reviewsMore = document.querySelector('.reviews-controls-more');
 
   /**
-   * Выранный в настоящий момент фильтр.
+   * Выбранный в прошлый раз фильтр, или фильтр по умолчанию.
    * @type {string}
      */
-  var activeFilter = 'reviews-all';
+  var activeFilter = localStorage.getItem('activeFilter') || 'reviews-all';
   /**
    * Отфильтрованные отзывы.
    * @type {Array}
@@ -141,6 +141,7 @@
     }
     currentPage = 0;
     activeFilter = id;
+    localStorage.setItem('activeFilter', id);
 
     var renderedElements = container.querySelectorAll('.review');
     [].forEach.call(renderedElements, function(el) {
