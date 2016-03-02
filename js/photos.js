@@ -20,6 +20,9 @@
 
   window.addEventListener('hashchange', isHash);
 
+  /**
+   * Открытие/загрытие галереи по хэшу.
+   */
   function isHash() {
     var checkedHash = location.hash.match(/#photo\/(\S+)/);
     if (checkedHash !== null) {
@@ -37,7 +40,6 @@
   photoGalleryMapped.forEach(function(photo) {
     photo.element.addEventListener('click', function(evt) {
       evt.preventDefault();
-      gallery.setCurrentPicture(photo.index);
       location.hash = '#photo/' + photo.photoSrc;
     });
   });
