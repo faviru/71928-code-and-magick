@@ -50,7 +50,7 @@
    */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
-    if (clickedElement.tagName === 'input') {
+    if (clickedElement.tagName.toLowerCase() === 'input') {
       setActiveFilter(clickedElement.id);
     }
   });
