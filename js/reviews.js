@@ -21,10 +21,10 @@
   var reviewsMore = document.querySelector('.reviews-controls-more');
 
   /**
-   * Выранный в настоящий момент фильтр.
+   * Выбранный в прошлый раз фильтр, или фильтр по умолчанию.
    * @type {string}
      */
-  var activeFilter = 'reviews-all';
+  var activeFilter = localStorage.getItem('activeFilter') || 'reviews-all';
   /**
    * Отфильтрованные отзывы.
    * @type {Array}
@@ -50,7 +50,7 @@
    */
   filters.addEventListener('click', function(evt) {
     var clickedElement = evt.target;
-    if (clickedElement.tagName === 'input') {
+    if (clickedElement.tagName.toLowerCase() === 'input') {
       setActiveFilter(clickedElement.id);
     }
   });
@@ -79,6 +79,7 @@
     var from = currentPage * PAGE_SIZE;
     var to = from + PAGE_SIZE;
     var pageReviews = reviews.slice(from, to);
+    filters.classList.remove('invisible');
 
     pageReviews.forEach(function(review) {
       /**
@@ -87,7 +88,6 @@
       var reviewElement = new Review(review);
       reviewElement.render();
       fragment.appendChild(reviewElement.element);
-      filters.classList.remove('invisible');
     });
 
     container.appendChild(fragment);
@@ -141,6 +141,8 @@
     }
     currentPage = 0;
     activeFilter = id;
+    filters[activeFilter].checked = true;
+    localStorage.setItem('activeFilter', id);
 
     var renderedElements = container.querySelectorAll('.review');
     [].forEach.call(renderedElements, function(el) {
@@ -161,7 +163,7 @@
       reviewsList.classList.remove('reviews-list-loading');
       var rawData = evt.target.response;
       loadedReviews = JSON.parse(rawData);
-      setActiveFilter('reviews-all', true);
+      setActiveFilter(activeFilter, true);
     };
 
     xhr.onerror = function() {
