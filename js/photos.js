@@ -2,7 +2,9 @@
 
 (function() {
   var Photo = require('photo');
+  var Video = require('video');
   var Gallery = require('gallery');
+
   /**
    * Выбирает скриншоты игры.
    * @type {NodeList}
@@ -15,7 +17,11 @@
   var gallery = new Gallery();
 
   var photoGalleryMapped = [].map.call(photoGallery, function(item, i) {
-    return new Photo(item, i);
+    if (item.getAttribute('data-replacement-video')) {
+      return new Video(item, i);
+    } else {
+      return new Photo(item, i);
+    }
   });
 
   window.addEventListener('hashchange', isHash);

@@ -1,6 +1,7 @@
 'use strict';
 
 (function() {
+  var Video = require('video')
   /**
    * Конструктор объекта Gallery.
    * @constructor
@@ -43,14 +44,20 @@
       identifier = tempId;
     }
 
+    var element;
     this._currentPicture = this._pictures[identifier];
 
-    var image = new Image();
-    image.src = this._currentPicture.photoSrc;
-    if (this.galleryPreview.firstChild) {
-      this.galleryPreview.replaceChild(image, this.galleryPreview.firstChild);
+    if (this._pictures[identifier] instanceof Video) {
+      element = this._pictures[identifier].video;
     } else {
-      this.galleryPreview.appendChild(image);
+      element = new Image();
+      element.src = this._currentPicture.photoSrc;
+    }
+
+    if (this.galleryPreview.firstChild) {
+      this.galleryPreview.replaceChild(element, this.galleryPreview.firstChild);
+    } else {
+      this.galleryPreview.appendChild(element);
     }
 
     this.galleryCurrentPic.innerHTML = identifier + 1;

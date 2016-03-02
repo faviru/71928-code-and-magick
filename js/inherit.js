@@ -12,5 +12,5 @@
     ChildFunc.prototype.constructor = ChildFunc;
   }
 
-  window.inherit = inherit;
+  module.exports = inherit;
 })();

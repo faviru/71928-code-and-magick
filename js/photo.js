@@ -11,6 +11,10 @@
    */
 
   function Photo(photo, index) {
+    this._setCommonProperties(photo, index);
+  }
+
+  Photo.prototype._setCommonProperties = function(photo, index) {
     this.element = photo;
     this.photoSrc = photo.firstChild.getAttribute('src');
     this.index = index;
